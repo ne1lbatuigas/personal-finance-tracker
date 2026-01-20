@@ -1,3 +1,67 @@
+/* Light mode styles */
+body.light-mode {
+  background: #f4f6fb;
+  color: #23283a;
+}
+
+body.light-mode h1 {
+  color: #2563eb;
+}
+
+body.light-mode form {
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+body.light-mode input, body.light-mode select {
+  background: #fff;
+  color: #23283a;
+  border: 1px solid #bfc9d9;
+}
+body.light-mode input:focus, body.light-mode select:focus {
+  border-color: #2563eb;
+}
+
+body.light-mode button, body.light-mode .edit-btn, body.light-mode .delete-btn {
+  background: linear-gradient(90deg, #2563eb 0%, #38bdf8 100%);
+  color: #fff;
+}
+body.light-mode button:hover, body.light-mode .edit-btn:hover, body.light-mode .delete-btn:hover {
+  background: linear-gradient(90deg, #38bdf8 0%, #2563eb 100%);
+}
+body.light-mode .delete-btn {
+  background: linear-gradient(90deg, #f87171 0%, #ef4444 100%);
+}
+body.light-mode .delete-btn:hover {
+  background: linear-gradient(90deg, #ef4444 0%, #f87171 100%);
+}
+body.light-mode .edit-btn {
+  background: linear-gradient(90deg, #fbbf24 0%, #f59e42 100%);
+  color: #23283a;
+}
+body.light-mode .edit-btn:hover {
+  background: linear-gradient(90deg, #f59e42 0%, #fbbf24 100%);
+  color: #181c24;
+}
+
+body.light-mode table {
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+body.light-mode th {
+  background: #f4f6fb;
+  color: #2563eb;
+}
+body.light-mode tr:nth-child(even) {
+  background: #f9fafb;
+}
+body.light-mode tr:nth-child(odd) {
+  background: #fff;
+}
+body.light-mode #financeChart {
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
 body {
   font-family: 'Montserrat', Arial, sans-serif;
   background: #181c24;

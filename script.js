@@ -1,3 +1,21 @@
+// Theme toggle logic
+const modeToggle = document.getElementById('mode-toggle');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const savedMode = localStorage.getItem('theme-mode');
+if (savedMode === 'light') {
+  document.body.classList.add('light-mode');
+  modeToggle.textContent = '☀️ Light Mode';
+} else {
+  document.body.classList.remove('light-mode');
+  modeToggle.textContent = '🌙 Dark Mode';
+}
+modeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('light-mode');
+  const isLight = document.body.classList.contains('light-mode');
+  modeToggle.textContent = isLight ? '☀️ Light Mode' : '🌙 Dark Mode';
+  localStorage.setItem('theme-mode', isLight ? 'light' : 'dark');
+  updateChart(); // Update chart label color on mode change
+});
 const form = document.getElementById('finance-form');
 const list = document.getElementById('finance-list');
 
@@ -76,8 +94,6 @@ function deleteTransaction(idx) {
   saveAndRender();
 }
 
-// ...existing code...
-
 // Load stored data on refresh
 renderTransactions();
 
@@ -95,6 +111,10 @@ function updateChart() {
 
   if (chart) chart.destroy();
 
+  // Detect mode for label color
+  const isLight = document.body.classList.contains('light-mode');
+  const labelColor = isLight ? '#23283a' : '#f3f4f6';
+
   chart = new Chart(ctx, {
     type: 'pie',
     data: {
@@ -102,6 +122,16 @@ function updateChart() {
       datasets: [{
         data: [income, expense]
       }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          labels: {
+            color: labelColor,
+            font: { weight: 'bold' }
+          }
+        }
+      }
     }
   });
 }
