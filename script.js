@@ -1,7 +1,9 @@
 const form = document.getElementById('finance-form');
 const list = document.getElementById('finance-list');
 
+
 let transactions = JSON.parse(localStorage.getItem('transactions')) || [];
+let editIndex = null;
 
 form.addEventListener('submit', function (e) {
   e.preventDefault();
@@ -12,9 +14,15 @@ form.addEventListener('submit', function (e) {
 
   const transaction = { description, amount, type };
 
-  transactions.push(transaction);
+  if (editIndex !== null) {
+    transactions[editIndex] = transaction;
+    editIndex = null;
+  } else {
+    transactions.push(transaction);
+  }
   saveAndRender();
   form.reset();
+  form.querySelector('button[type="submit"]').textContent = 'Add Entry';
 });
 
 function saveAndRender() {
@@ -25,16 +33,50 @@ function saveAndRender() {
 
 function renderTransactions() {
   list.innerHTML = "";
-  transactions.forEach(t => {
+  transactions.forEach((t, idx) => {
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${t.description}</td>
       <td>${t.amount}</td>
       <td>${t.type}</td>
+      <td>
+        <button class="edit-btn" data-idx="${idx}">Edit</button>
+        <button class="delete-btn" data-idx="${idx}">Delete</button>
+      </td>
     `;
     list.appendChild(row);
   });
+
+  // Attach event listeners for edit and delete
+  document.querySelectorAll('.edit-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const idx = this.getAttribute('data-idx');
+      editTransaction(idx);
+    });
+  });
+  document.querySelectorAll('.delete-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const idx = this.getAttribute('data-idx');
+      deleteTransaction(idx);
+    });
+  });
 }
+
+function editTransaction(idx) {
+  const t = transactions[idx];
+  document.getElementById('description').value = t.description;
+  document.getElementById('amount').value = t.amount;
+  document.getElementById('type').value = t.type;
+  editIndex = Number(idx);
+  form.querySelector('button[type="submit"]').textContent = 'Update Entry';
+}
+
+function deleteTransaction(idx) {
+  transactions.splice(idx, 1);
+  saveAndRender();
+}
+
+// ...existing code...
 
 // Load stored data on refresh
 renderTransactions();
